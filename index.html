@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>اختيار تطبيق الخرائط</title>
+
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Cairo font -->
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    body { font-family: 'Cairo', sans-serif; }
+    .map-card { transition: all .3s ease; transform: translateY(0); }
+    .map-card:hover { transform: translateY(-8px); box-shadow: 0 20px 40px rgba(0,0,0,.15); }
+    .gradient-bg { background: linear-gradient(135deg,#667eea 0%,#764ba2 100%); }
+    .icon-bounce { animation: bounce 2s infinite; }
+    @keyframes bounce {
+      0%,20%,50%,80%,100% { transform: translateY(0); }
+      40% { transform: translateY(-10px); }
+      60% { transform: translateY(-5px); }
+    }
+  </style>
+</head>
+<body class="gradient-bg min-h-screen flex items-center justify-center p-4">
+  <div class="max-w-md w-full">
+    <!-- Header -->
+    <div class="text-center mb-12">
+      <div class="text-6xl mb-4 icon-bounce">🗺️</div>
+      <h1 class="text-3xl font-bold text-white mb-2">اختر تطبيق الخرائط</h1>
+      <p class="text-white/80 text-lg">اختر التطبيق المفضل لديك للوصول إلى الوجهة</p>
+    </div>
+
+    <!-- Map Options -->
+    <div class="space-y-4">
+      <!-- Google Maps -->
+      <a href="https://www.google.com/maps/dir/?api=1&destination=25.2267,51.4131&travelmode=driving"
+         class="map-card block bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 group"
+         rel="noopener">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center space-x-4 space-x-reverse">
+            <div class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">🚗</div>
+            <div>
+              <h3 class="text-xl font-semibold text-gray-800">Google Maps</h3>
+              <p class="text-gray-500 text-sm">الخيار الأكثر شمولية</p>
+            </div>
+          </div>
+          <div class="text-gray-400 group-hover:text-gray-600 transition-colors">←</div>
+        </div>
+      </a>
+
+      <!-- Waze -->
+      <a href="https://waze.com/ul?ll=25.2267,51.4131&navigate=yes"
+         class="map-card block bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 group"
+         rel="noopener">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center space-x-4 space-x-reverse">
+            <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">🚙</div>
+            <div>
+              <h3 class="text-xl font-semibold text-gray-800">Waze</h3>
+              <p class="text-gray-500 text-sm">أفضل طريق مع تجنب الزحام</p>
+            </div>
+          </div>
+          <div class="text-gray-400 group-hover:text-gray-600 transition-colors">←</div>
+        </div>
+      </a>
+
+      <!-- Apple Maps -->
+      <a href="https://maps.apple.com/?daddr=25.2267,51.4131&dirflg=d"
+         class="map-card block bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 group"
+         rel="noopener">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center space-x-4 space-x-reverse">
+            <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">🍎</div>
+            <div>
+              <h3 class="text-xl font-semibold text-gray-800">Apple Maps</h3>
+              <p class="text-gray-500 text-sm">مدمج مع أجهزة آبل</p>
+            </div>
+          </div>
+          <div class="text-gray-400 group-hover:text-gray-600 transition-colors">←</div>
+        </div>
+      </a>
+    </div>
+
+    <!-- Footer -->
+    <div class="text-center mt-8">
+      <p class="text-white/60 text-sm">انقر على أي خيار للانتقال مباشرة إلى التطبيق</p>
+    </div>
+  </div>
+</body>
+</html>
