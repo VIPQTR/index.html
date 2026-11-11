@@ -1,0 +1,325 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+ <meta charset="utf-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+ <meta name="theme-color" content="#8A1538">
+ <meta name="apple-mobile-web-app-capable" content="yes">
+ <meta name="apple-mobile-web-app-status-bar-style" content="default">
+ <meta name="apple-mobile-web-app-title" content="الاستدعاء">
+ <meta name="description" content="كشف الاستدعاء المتحرك، مع الاتصال وواتساب">
+ <link rel="apple-touch-icon" sizes="192x192" href="./icon.png">
+ <link rel="icon" type="image/png" href="./icon.png">
+ <link rel="manifest" href="./manifest.webmanifest">
+ <title>الاستدعاء</title>
+ <style>
+  *{box-sizing:border-box}
+  :root{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Tahoma,Arial,sans-serif;color-scheme:light;-webkit-tap-highlight-color:transparent;
+    --ad3am:#8A1538;--gold:#A29475;--black:#000000;--white:#FFFFFF}
+  body{margin:0;min-height:100dvh;background:#FFFFFF;color:var(--black)}
+  [hidden]{display:none!important}
+  .head{background:var(--ad3am);color:var(--white);padding:calc(16px + env(safe-area-inset-top,0px)) 16px 16px;box-shadow:0 2px 13px #8a153827}
+  .head-inner{margin:auto;max-width:850px;display:flex;gap:13px;align-items:center}
+  .logo{width:48px;height:48px;object-fit:cover;border-radius:12px;border:1px solid #ffffff56}
+  h1{font-size:23px;line-height:1.3;margin:0;font-weight:800}
+  main{max-width:850px;margin:auto;padding:13px 12px calc(20px + env(safe-area-inset-bottom,0px))}
+  .guide{display:flex;justify-content:flex-start;margin:0 3px 12px}
+  .return{border:1px solid var(--gold);border-radius:10px;padding:9px 14px;background:var(--white);color:var(--ad3am);font:inherit;font-size:12px;font-weight:750;white-space:nowrap;cursor:pointer}
+  .return:active{background:#a2947525}
+  .board{background:var(--white);border:1px solid #a2947580;border-radius:18px;overflow:hidden;box-shadow:0 8px 27px #0000000b}
+  .labels{display:grid;grid-template-columns:minmax(0,43fr) minmax(0,15fr) minmax(0,20fr) minmax(0,22fr);align-items:center;background:var(--ad3am);color:var(--white);min-height:52px;border-bottom:2px solid var(--gold);padding:0 8px}
+  .labels span{font-size:13px;font-weight:800;text-align:center;padding:9px 2px}
+  .labels span:first-child{text-align:right;padding-right:10px}
+  .wheel-shell{--item-h:68px;--wheel-h:clamp(380px,calc(100dvh - 280px),620px);height:var(--wheel-h);position:relative;overflow:hidden;background:#fff}
+  .wheel{height:100%;overflow-y:auto;overflow-x:hidden;overscroll-behavior-y:contain;-webkit-overflow-scrolling:touch;scroll-snap-type:y mandatory;scroll-padding-block:calc((var(--wheel-h) - var(--item-h))/2);scrollbar-width:none;touch-action:pan-y;padding-block:calc((var(--wheel-h) - var(--item-h))/2);position:relative;outline:none}
+  .wheel::-webkit-scrollbar{display:none}
+  .wheel-item{height:var(--item-h);width:100%;display:grid;grid-template-columns:minmax(0,43fr) minmax(0,15fr) minmax(0,20fr) minmax(0,22fr);align-items:center;padding:0 8px;scroll-snap-align:center;scroll-snap-stop:normal;border-bottom:1px solid #a2947548;opacity:.80;transform:scale(.98);transition:opacity .13s linear,transform .13s ease-out,background .13s linear;cursor:pointer;position:relative}
+  .wheel-item.near{opacity:.94;transform:scale(.995)}
+  .wheel-item.active{opacity:1;transform:scale(1);background:#a2947533;box-shadow:inset 4px 0 var(--gold),inset -4px 0 var(--gold);z-index:1;border-top:1px solid var(--gold);border-bottom:1px solid var(--gold)}
+  .cell{min-width:0;text-align:center;padding:3px 2px;font-size:13px;line-height:1.5}
+  .person{text-align:right;padding-right:10px;font-weight:750;font-size:15px;line-height:1.65;color:var(--black)}
+  .weekday{color:var(--black);font-weight:600}
+  .date{font-variant-numeric:tabular-nums;white-space:nowrap;font-size:11.5px;color:var(--black)}
+  .phone-button{display:inline-flex;align-items:center;justify-content:center;min-width:0;max-width:100%;padding:7px 3px;min-height:36px;border:1px solid var(--ad3am);border-radius:10px;background:#8a15380e;color:var(--ad3am);cursor:pointer;font:inherit;font-size:13px;font-weight:800;white-space:nowrap;font-variant-numeric:tabular-nums;letter-spacing:0}
+  .phone-button:active{background:#8a15382e}
+  .wheel-item.active .person{font-size:17px;color:var(--ad3am);font-weight:850}
+  .wheel-item.active .weekday{font-size:13px;font-weight:800;color:var(--black)}
+  .wheel-item.active .date{color:var(--black);font-weight:750}
+  .wheel-item.active .phone-button{background:var(--ad3am);color:var(--white);border-color:var(--ad3am)}
+  .wheel-shell::before,.wheel-shell::after{position:absolute;z-index:2;left:0;right:0;height:7%;pointer-events:none;content:""}
+  .wheel-shell::before{top:0;background:linear-gradient(180deg,#ffffffc9,#ffffff00)}
+  .wheel-shell::after{bottom:0;background:linear-gradient(0deg,#ffffffc9,#ffffff00)}
+  .selection{border-top:1px solid #a2947575;display:flex;align-items:center;justify-content:space-between;gap:9px;padding:13px 14px;background:#a294751b}
+  .selection .caption{font-size:12px;color:var(--ad3am);margin-bottom:3px}
+  .selection .focus-name{font-size:16px;color:var(--black);font-weight:800;line-height:1.45}
+  .selected-date{display:flex;align-items:center;gap:6px;flex-shrink:0;direction:ltr}
+  .date-badge{background:var(--gold);border-radius:9px;color:var(--black);font-size:11px;font-weight:800;padding:6px 8px;white-space:nowrap}
+  .selected-date time{font-size:12px;font-weight:700;color:var(--black);white-space:nowrap}
+  .foot{text-align:center;font-size:11px;color:#00000098;margin:12px 10px;line-height:1.8}
+  .modal{position:fixed;inset:0;z-index:10;background:#0000009c;display:flex;align-items:end;justify-content:center;padding:0 10px}
+  .panel{background:#fff;width:100%;max-width:500px;border-radius:22px 22px 0 0;padding:12px 20px calc(20px + env(safe-area-inset-bottom,0px));box-shadow:0 -10px 30px #0002}
+  .handle{height:5px;width:42px;border-radius:5px;background:var(--gold);margin:0 auto 18px}
+  .panel h2{font-size:20px;text-align:center;margin:0 0 5px;color:var(--black)}
+  .panel p{text-align:center;direction:ltr;color:var(--black);margin:0 0 19px;font-weight:600}
+  .contact-action{display:flex;align-items:center;justify-content:center;text-decoration:none;min-height:54px;border-radius:12px;background:var(--ad3am);color:var(--white);font-size:17px;font-weight:800;margin-top:9px}
+  .wa{background:var(--gold);color:var(--black)}
+  .cancel{width:100%;background:var(--white);color:var(--black);border:1px solid var(--gold);border-radius:12px;min-height:50px;font:inherit;font-size:16px;font-weight:750;margin-top:10px;cursor:pointer}
+  @media(max-width:530px){
+    main{padding:10px 7px 10px}
+    .head{padding-right:13px;padding-left:13px}
+    .logo{width:43px;height:43px}
+    h1{font-size:21px}
+    .guide{margin:0 6px 9px}
+    .labels,.wheel-item{grid-template-columns:minmax(0,41fr) minmax(0,16fr) minmax(0,20fr) minmax(0,23fr);padding:0 4px}
+    .labels{min-height:47px}
+    .labels span{font-size:11px;padding:7px 1px}
+    .labels span:first-child{padding-right:7px}
+    .wheel-shell{--item-h:66px;--wheel-h:clamp(370px,calc(100dvh - 265px),610px)}
+    .person{font-size:13px;padding-right:7px;line-height:1.55}
+    .weekday{font-size:11.5px}
+    .date{font-size:10.5px;letter-spacing:-.2px}
+    .phone-button{font-size:12px;padding:6px 2px;min-height:36px;border-radius:9px}
+    .wheel-item.active .person{font-size:15px}
+    .wheel-item.active .weekday{font-size:12px}
+    .selection{padding:11px 12px}
+    .selection .focus-name{font-size:15px}
+    .selected-date time{font-size:11px}
+    .date-badge{padding:6px;font-size:10px}
+  }
+  @media(max-width:365px){.person{font-size:12px}.wheel-item.active .person{font-size:13px}.weekday{font-size:10px}.date{font-size:9.5px}.phone-button{font-size:11px}.selection .focus-name{font-size:13px}}
+  @media(max-height:610px){.wheel-shell{--wheel-h:370px}.foot{margin:9px 10px}}
+  @media(prefers-reduced-motion:reduce){.wheel-item{transition:none}}
+ </style>
+</head>
+<body>
+ <header class="head"><div class="head-inner"><img class="logo" src="./icon.png" alt="" width="48" height="48"><div><h1>كشف الاستدعاء اليومي</h1></div></div></header>
+ <main>
+  <div class="guide"><button class="return" id="goToday" type="button">العودة إلى اليوم</button></div>
+  <section class="board" aria-label="جدول الاستدعاء المتحرك">
+   <div class="labels" aria-hidden="true"><span>الاسم</span><span>اليوم</span><span>التاريخ</span><span>رقم الهاتف</span></div>
+   <div class="wheel-shell">
+    <div class="wheel" id="wheel" tabindex="0" aria-label="اسحب لأعلى أو لأسفل للتنقل بين أسماء الاستدعاء">
+<div class="wheel-item" data-index="0" data-date="2026-11-12" role="group" aria-label="الخميس 2026/11/12، يحيى قاسم الخلاقي">
+        <div class="cell person">يحيى قاسم الخلاقي</div>
+        <div class="cell weekday">الخميس</div>
+        <div class="cell date" dir="ltr">2026/11/12</div>
+        <div class="cell phone"><button class="phone-button" type="button" data-name="يحيى قاسم الخلاقي" data-phone="33357667" aria-label="خيارات الاتصال بـ يحيى قاسم الخلاقي على الرقم 33357667"><b dir="ltr">33357667</b></button></div>
+    </div>
+<div class="wheel-item" data-index="1" data-date="2026-11-13" role="group" aria-label="الجمعة 2026/11/13، المزمل أبوبكر">
+        <div class="cell person">المزمل أبوبكر</div>
+        <div class="cell weekday">الجمعة</div>
+        <div class="cell date" dir="ltr">2026/11/13</div>
+        <div class="cell phone"><button class="phone-button" type="button" data-name="المزمل أبوبكر" data-phone="30350041" aria-label="خيارات الاتصال بـ المزمل أبوبكر على الرقم 30350041"><b dir="ltr">30350041</b></button></div>
+    </div>
+<div class="wheel-item" data-index="2" data-date="2026-11-14" role="group" aria-label="السبت 2026/11/14، عبدالله جابر المري">
+        <div class="cell person">عبدالله جابر المري</div>
+        <div class="cell weekday">السبت</div>
+        <div class="cell date" dir="ltr">2026/11/14</div>
+        <div class="cell phone"><button class="phone-button" type="button" data-name="عبدالله جابر المري" data-phone="55262690" aria-label="خيارات الاتصال بـ عبدالله جابر المري على الرقم 55262690"><b dir="ltr">55262690</b></button></div>
+    </div>
+<div class="wheel-item" data-index="3" data-date="2026-11-15" role="group" aria-label="الأحد 2026/11/15، يوسف صالح العمري">
+        <div class="cell person">يوسف صالح العمري</div>
+        <div class="cell weekday">الأحد</div>
+        <div class="cell date" dir="ltr">2026/11/15</div>
+        <div class="cell phone"><button class="phone-button" type="button" data-name="يوسف صالح العمري" data-phone="30033299" aria-label="خيارات الاتصال بـ يوسف صالح العمري على الرقم 30033299"><b dir="ltr">30033299</b></button></div>
+    </div>
+<div class="wheel-item" data-index="4" data-date="2026-11-16" role="group" aria-label="الاثنين 2026/11/16، يوسف صالح اليافعي">
+        <div class="cell person">يوسف صالح اليافعي</div>
+        <div class="cell weekday">الاثنين</div>
+        <div class="cell date" dir="ltr">2026/11/16</div>
+        <div class="cell phone"><button class="phone-button" type="button" data-name="يوسف صالح اليافعي" data-phone="30753057" aria-label="خيارات الاتصال بـ يوسف صالح اليافعي على الرقم 30753057"><b dir="ltr">30753057</b></button></div>
+    </div>
+<div class="wheel-item" data-index="5" data-date="2026-11-17" role="group" aria-label="الثلاثاء 2026/11/17، أحمد الطيب">
+        <div class="cell person">أحمد الطيب</div>
+        <div class="cell weekday">الثلاثاء</div>
+        <div class="cell date" dir="ltr">2026/11/17</div>
+        <div class="cell phone"><button class="phone-button" type="button" data-name="أحمد الطيب" data-phone="70556555" aria-label="خيارات الاتصال بـ أحمد الطيب على الرقم 70556555"><b dir="ltr">70556555</b></button></div>
+    </div>
+<div class="wheel-item" data-index="6" data-date="2026-11-18" role="group" aria-label="الأربعاء 2026/11/18، يحيى قاسم الخلاقي">
+        <div class="cell person">يحيى قاسم الخلاقي</div>
+        <div class="cell weekday">الأربعاء</div>
+        <div class="cell date" dir="ltr">2026/11/18</div>
+        <div class="cell phone"><button class="phone-button" type="button" data-name="يحيى قاسم الخلاقي" data-phone="33357667" aria-label="خيارات الاتصال بـ يحيى قاسم الخلاقي على الرقم 33357667"><b dir="ltr">33357667</b></button></div>
+    </div>
+<div class="wheel-item" data-index="7" data-date="2026-11-19" role="group" aria-label="الخميس 2026/11/19، المزمل أبوبكر">
+        <div class="cell person">المزمل أبوبكر</div>
+        <div class="cell weekday">الخميس</div>
+        <div class="cell date" dir="ltr">2026/11/19</div>
+        <div class="cell phone"><button class="phone-button" type="button" data-name="المزمل أبوبكر" data-phone="30350041" aria-label="خيارات الاتصال بـ المزمل أبوبكر على الرقم 30350041"><b dir="ltr">30350041</b></button></div>
+    </div>
+<div class="wheel-item" data-index="8" data-date="2026-11-20" role="group" aria-label="الجمعة 2026/11/20، عبدالله جابر المري">
+        <div class="cell person">عبدالله جابر المري</div>
+        <div class="cell weekday">الجمعة</div>
+        <div class="cell date" dir="ltr">2026/11/20</div>
+        <div class="cell phone"><button class="phone-button" type="button" data-name="عبدالله جابر المري" data-phone="55262690" aria-label="خيارات الاتصال بـ عبدالله جابر المري على الرقم 55262690"><b dir="ltr">55262690</b></button></div>
+    </div>
+<div class="wheel-item" data-index="9" data-date="2026-11-21" role="group" aria-label="السبت 2026/11/21، يوسف صالح العمري">
+        <div class="cell person">يوسف صالح العمري</div>
+        <div class="cell weekday">السبت</div>
+        <div class="cell date" dir="ltr">2026/11/21</div>
+        <div class="cell phone"><button class="phone-button" type="button" data-name="يوسف صالح العمري" data-phone="30033299" aria-label="خيارات الاتصال بـ يوسف صالح العمري على الرقم 30033299"><b dir="ltr">30033299</b></button></div>
+    </div>
+<div class="wheel-item" data-index="10" data-date="2026-11-22" role="group" aria-label="الأحد 2026/11/22، يوسف صالح اليافعي">
+        <div class="cell person">يوسف صالح اليافعي</div>
+        <div class="cell weekday">الأحد</div>
+        <div class="cell date" dir="ltr">2026/11/22</div>
+        <div class="cell phone"><button class="phone-button" type="button" data-name="يوسف صالح اليافعي" data-phone="30753057" aria-label="خيارات الاتصال بـ يوسف صالح اليافعي على الرقم 30753057"><b dir="ltr">30753057</b></button></div>
+    </div>
+<div class="wheel-item" data-index="11" data-date="2026-11-23" role="group" aria-label="الاثنين 2026/11/23، أحمد الطيب">
+        <div class="cell person">أحمد الطيب</div>
+        <div class="cell weekday">الاثنين</div>
+        <div class="cell date" dir="ltr">2026/11/23</div>
+        <div class="cell phone"><button class="phone-button" type="button" data-name="أحمد الطيب" data-phone="70556555" aria-label="خيارات الاتصال بـ أحمد الطيب على الرقم 70556555"><b dir="ltr">70556555</b></button></div>
+    </div>
+<div class="wheel-item" data-index="12" data-date="2026-11-24" role="group" aria-label="الثلاثاء 2026/11/24، يحيى قاسم الخلاقي">
+        <div class="cell person">يحيى قاسم الخلاقي</div>
+        <div class="cell weekday">الثلاثاء</div>
+        <div class="cell date" dir="ltr">2026/11/24</div>
+        <div class="cell phone"><button class="phone-button" type="button" data-name="يحيى قاسم الخلاقي" data-phone="33357667" aria-label="خيارات الاتصال بـ يحيى قاسم الخلاقي على الرقم 33357667"><b dir="ltr">33357667</b></button></div>
+    </div>
+<div class="wheel-item" data-index="13" data-date="2026-11-25" role="group" aria-label="الأربعاء 2026/11/25، المزمل أبوبكر">
+        <div class="cell person">المزمل أبوبكر</div>
+        <div class="cell weekday">الأربعاء</div>
+        <div class="cell date" dir="ltr">2026/11/25</div>
+        <div class="cell phone"><button class="phone-button" type="button" data-name="المزمل أبوبكر" data-phone="30350041" aria-label="خيارات الاتصال بـ المزمل أبوبكر على الرقم 30350041"><b dir="ltr">30350041</b></button></div>
+    </div>
+<div class="wheel-item" data-index="14" data-date="2026-11-26" role="group" aria-label="الخميس 2026/11/26، عبدالله جابر المري">
+        <div class="cell person">عبدالله جابر المري</div>
+        <div class="cell weekday">الخميس</div>
+        <div class="cell date" dir="ltr">2026/11/26</div>
+        <div class="cell phone"><button class="phone-button" type="button" data-name="عبدالله جابر المري" data-phone="55262690" aria-label="خيارات الاتصال بـ عبدالله جابر المري على الرقم 55262690"><b dir="ltr">55262690</b></button></div>
+    </div>
+<div class="wheel-item" data-index="15" data-date="2026-11-27" role="group" aria-label="الجمعة 2026/11/27، يوسف صالح العمري">
+        <div class="cell person">يوسف صالح العمري</div>
+        <div class="cell weekday">الجمعة</div>
+        <div class="cell date" dir="ltr">2026/11/27</div>
+        <div class="cell phone"><button class="phone-button" type="button" data-name="يوسف صالح العمري" data-phone="30033299" aria-label="خيارات الاتصال بـ يوسف صالح العمري على الرقم 30033299"><b dir="ltr">30033299</b></button></div>
+    </div>
+<div class="wheel-item" data-index="16" data-date="2026-11-28" role="group" aria-label="السبت 2026/11/28، يوسف صالح اليافعي">
+        <div class="cell person">يوسف صالح اليافعي</div>
+        <div class="cell weekday">السبت</div>
+        <div class="cell date" dir="ltr">2026/11/28</div>
+        <div class="cell phone"><button class="phone-button" type="button" data-name="يوسف صالح اليافعي" data-phone="30753057" aria-label="خيارات الاتصال بـ يوسف صالح اليافعي على الرقم 30753057"><b dir="ltr">30753057</b></button></div>
+    </div>
+<div class="wheel-item" data-index="17" data-date="2026-11-29" role="group" aria-label="الأحد 2026/11/29، أحمد الطيب">
+        <div class="cell person">أحمد الطيب</div>
+        <div class="cell weekday">الأحد</div>
+        <div class="cell date" dir="ltr">2026/11/29</div>
+        <div class="cell phone"><button class="phone-button" type="button" data-name="أحمد الطيب" data-phone="70556555" aria-label="خيارات الاتصال بـ أحمد الطيب على الرقم 70556555"><b dir="ltr">70556555</b></button></div>
+    </div>
+    </div>
+   </div>
+   <div class="selection" aria-live="polite" aria-atomic="true">
+    <div><div class="caption" id="selectionCaption">الدور المحدد</div><div class="focus-name" id="selectionName">—</div></div>
+    <div class="selected-date"><time id="selectionDate" datetime="">—</time><span class="date-badge" id="selectionBadge">—</span></div>
+   </div>
+  </section>
+  <p class="foot">اضغط على أي رقم لإظهار خيارات الاتصال أو واتساب.</p>
+ </main>
+ <div class="modal" id="contactModal" hidden>
+  <section class="panel" role="dialog" aria-modal="true" aria-labelledby="contactTitle">
+   <div class="handle" aria-hidden="true"></div><h2 id="contactTitle">التواصل</h2><p id="contactNumber"></p>
+   <a class="contact-action" id="callLink" href="#">اتصال هاتفي</a>
+   <a class="contact-action wa" id="waLink" href="#">فتح واتساب</a>
+   <button class="cancel" id="cancel" type="button">إلغاء</button>
+  </section>
+ </div>
+ <script>
+ (()=>{
+   'use strict';
+   const wheel=document.getElementById('wheel');
+   const rows=Array.from(wheel.querySelectorAll('.wheel-item'));
+   const now=new Date();
+   const today=new Date(now.getFullYear(),now.getMonth(),now.getDate());
+   const iso=d=>[d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-');
+   const todayIso=iso(today);
+   const dateDelta=day=>{
+      const parts=day.split('-').map(Number);
+      return Math.round((Date.UTC(parts[0],parts[1]-1,parts[2])-Date.UTC(today.getFullYear(),today.getMonth(),today.getDate()))/86400000);
+   };
+   const labelDelta=n=>n===0?'اليوم':n===-1?'أمس':n===1?'غداً':n===-2?'قبل يومين':n===2?'بعد غد':n<0?'سابق':'قادم';
+   const initialIndex=(()=>{
+     const exact=rows.findIndex(r=>r.dataset.date===todayIso);
+     if(exact!==-1)return exact;
+     const upcoming=rows.findIndex(r=>r.dataset.date>todayIso);
+     return upcoming!==-1?upcoming:rows.length-1;
+   })();
+   const returnBtn=document.getElementById('goToday');
+   if(!rows.some(r=>r.dataset.date===todayIso))returnBtn.textContent=rows[0].dataset.date>todayIso?'بداية الكشف':'نهاية الكشف';
+   let activeIndex=-1;
+   function showSelection(index){
+     if(index===activeIndex)return;
+     activeIndex=index;
+     const selected=rows[index];
+     rows.forEach((r,i)=>{
+       r.classList.toggle('active',i===index);
+       r.classList.toggle('near',Math.abs(i-index)===1);
+       if(i===index)r.setAttribute('aria-current','true');else r.removeAttribute('aria-current');
+     });
+     const delta=dateDelta(selected.dataset.date);
+     document.getElementById('selectionName').textContent=selected.querySelector('.person').textContent;
+     document.getElementById('selectionDate').textContent=selected.dataset.date.replaceAll('-','/');
+     document.getElementById('selectionDate').dateTime=selected.dataset.date;
+     document.getElementById('selectionBadge').textContent=labelDelta(delta);
+     document.getElementById('selectionCaption').textContent=delta===0?'المكلّف بالاستدعاء اليوم':'المكلّف بالاستدعاء في اليوم المحدد';
+   }
+   function closest(){
+     const center=wheel.getBoundingClientRect().top+wheel.clientHeight/2;
+     let best=0,dist=Infinity;
+     rows.forEach((r,i)=>{
+        const box=r.getBoundingClientRect();
+        const d=Math.abs((box.top+box.bottom)/2-center);
+        if(d<dist){dist=d;best=i;}
+     });
+     showSelection(best);
+   }
+   function jump(index,behavior='smooth'){
+     index=Math.max(0,Math.min(rows.length-1,index));
+     const r=rows[index];
+     const y=r.offsetTop+(r.offsetHeight-wheel.clientHeight)/2;
+     wheel.scrollTo({top:y,behavior});
+     showSelection(index);
+   }
+   rows.forEach((r,i)=>r.addEventListener('click',ev=>{
+      if(ev.target.closest('.phone-button'))return;
+      jump(i);
+   }));
+   let ticking=false;
+   wheel.addEventListener('scroll',()=>{
+     if(ticking)return;
+     ticking=true;
+     requestAnimationFrame(()=>{closest();ticking=false;});
+   },{passive:true});
+   wheel.addEventListener('keydown',event=>{
+     if(event.target.closest('button'))return;
+     if(['ArrowDown','ArrowUp','Home','End'].includes(event.key)){
+       event.preventDefault();
+       const idx=event.key==='Home'?0:event.key==='End'?rows.length-1:activeIndex+(event.key==='ArrowDown'?1:-1);
+       jump(idx);
+     }
+   });
+   returnBtn.addEventListener('click',()=>jump(initialIndex));
+   requestAnimationFrame(()=>jump(initialIndex,'instant'));
+   window.addEventListener('resize',()=>jump(activeIndex<0?initialIndex:activeIndex,'instant'));
+
+   // Contact options: all source numbers are 8-digit mobile numbers in Qatar.
+   const modal=document.getElementById('contactModal');
+   let trigger=null;
+   function close(){modal.hidden=true;if(trigger)trigger.focus();}
+   document.querySelectorAll('.phone-button').forEach(btn=>btn.addEventListener('click',()=>{
+      trigger=btn;
+      document.getElementById('contactTitle').textContent=btn.dataset.name;
+      document.getElementById('contactNumber').textContent=btn.dataset.phone;
+      document.getElementById('callLink').href='tel:+974'+btn.dataset.phone;
+      document.getElementById('waLink').href='https://wa.me/974'+btn.dataset.phone;
+      modal.hidden=false;
+      document.getElementById('cancel').focus();
+   }));
+   document.getElementById('cancel').addEventListener('click',close);
+   modal.addEventListener('click',e=>{if(e.target===modal)close()});
+   document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!modal.hidden)close()});
+   for(const id of ['callLink','waLink'])document.getElementById(id).addEventListener('click',()=>modal.hidden=true);
+ })();
+ </script>
+</body>
+</html>
