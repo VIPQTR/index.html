@@ -1,0 +1,19 @@
+{
+  "name": "كشف رسائل SMS الأسبوعي",
+  "short_name": "رسائل SMS",
+  "lang": "ar",
+  "dir": "rtl",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#FFFFFF",
+  "theme_color": "#8A1538",
+  "icons": [
+    {
+      "src": "../istidaa/icon.png",
+      "sizes": "120x120",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
