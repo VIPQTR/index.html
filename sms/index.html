@@ -8,8 +8,8 @@
  <meta name="apple-mobile-web-app-status-bar-style" content="default">
  <meta name="apple-mobile-web-app-title" content="رسائل SMS">
  <meta name="description" content="كشف رسائل SMS الأسبوعي المتحرك، مع الاتصال وواتساب">
- <link rel="apple-touch-icon" sizes="120x120" href="./icon.png">
- <link rel="icon" type="image/png" href="./icon.png">
+ <link rel="apple-touch-icon" sizes="120x120" href="../istidaa/icon.png">
+ <link rel="icon" type="image/png" href="../istidaa/icon.png">
  <link rel="manifest" href="./manifest.webmanifest">
  <title>رسائل SMS</title>
  <style>
@@ -88,13 +88,14 @@
     .selected-date time{font-size:11px}
     .date-badge{padding:6px;font-size:10px}
   }
+  @media(max-width:530px){.selection{flex-direction:column;align-items:stretch}.selected-date{justify-content:space-between;direction:rtl}.selection .focus-name{font-size:16px}.selected-date time{font-size:12px}}
   @media(max-width:365px){.person{font-size:12px}.wheel-item.active .person{font-size:13px}.weekday{font-size:10px}.date{font-size:9.5px}.phone-button{font-size:11px}.selection .focus-name{font-size:13px}}
   @media(max-height:610px){.wheel-shell{--wheel-h:370px}.foot{margin:9px 10px}}
   @media(prefers-reduced-motion:reduce){.wheel-item{transition:none}}
  </style>
 </head>
 <body>
- <header class="head"><div class="head-inner"><img class="logo" src="./icon.png" alt="" width="48" height="48"><div><h1>كشف رسائل SMS الأسبوعي</h1></div></div></header>
+ <header class="head"><div class="head-inner"><img class="logo" src="../istidaa/icon.png" alt="" width="48" height="48"><div><h1>كشف رسائل SMS الأسبوعي</h1></div></div></header>
  <main>
   <div class="guide"><button class="return" id="goToday" type="button">العودة إلى اليوم</button></div>
   <section class="board" aria-label="كشف رسائل SMS الأسبوعي المتحرك">
